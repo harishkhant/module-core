@@ -2,7 +2,7 @@
   "name": "magereva/module-core",
   "description": "Reva Core for Magento 2",
   "type": "magento2-module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "license": "proprietary",
   "minimum-stability": "dev",
   "prefer-stable": true,
