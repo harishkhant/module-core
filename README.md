@@ -1,12 +1,12 @@
-# Reva Core for Magento 2
+# MageReva Core for Magento 2
 
 Core
 
-## How to install & upgrade Reva_Core
+## How to install & upgrade MageReva_Core
 
 ### 1. Install via composer (recommend)
 
-We recommend you to install Reva_Core module via composer. It is easy to install, update and maintaince.
+We recommend you to install MageReva_Core module via composer. It is easy to install, update and maintaince.
 
 Run the following command in Magento 2 root folder.
 
@@ -37,8 +37,8 @@ php bin/magento setup:di:compile
 If you don't want to install via composer, you can use this way. 
 
 - Download [the latest version here](https://github.com/harishkhant/module-core/archive/master.zip) 
-- Extract `module-core-main.zip` file to `app/code/Reva/Core` ; You should create a folder path `app/code/Reva/Core` if not exist.
-- Go to Magento root folder and run upgrade command line to install `Reva_Core`:
+- Extract `module-core-main.zip` file to `app/code/MageReva/Core` ; You should create a folder path `app/code/MageReva/Core` if not exist.
+- Go to Magento root folder and run upgrade command line to install `MageReva_Core`:
 
 ```
 php bin/magento setup:upgrade

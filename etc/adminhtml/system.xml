@@ -3,14 +3,14 @@
     xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <tab id="reva" translate="label" sortOrder="100" class="reva-tab">
-            <label>Reva</label>
+            <label>MageReva</label>
         </tab>
         <section id="reva_config" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1"
             showInStore="1">
             <class>reva-separator-top</class>
             <label><![CDATA[Information &amp; Marketplace]]></label>
             <tab>reva</tab>
-            <resource>Reva_Core::information</resource>
+            <resource>MageReva_Core::information</resource>
             <group id="reva_menu" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="0"
                 showInStore="0">
                 <label><![CDATA[Information]]></label>
@@ -27,14 +27,14 @@
                             <a href="#" target="_blank">More Extensions</a>
                         </div>
                         <div class="reva-module">
-                            Reva Menu
+                            MageReva Menu
                         </div>
                         <hr />
                     ]]>
                 </comment>
                 <field id="menu_enable" translate="label comment" type="select" sortOrder="25" showInDefault="1"
                     showInWebsite="0" showInStore="0">
-                    <label>Enable Reva Menu</label>
+                    <label>Enable MageReva Menu</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
