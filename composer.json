@@ -1,22 +1,24 @@
 {
-    "name": "reva-m2/module-core",
-    "description": "Reva Core for Magento 2",
-    "type": "magento2-module",
-    "version": "0.0.1",
-    "license": "proprietary",
-    "authors": [
-      {
-        "name": "Reva",
-        "homepage": "https://revamagento.w3spaces.com",
-        "role": "Technical Support"
-      }
+  "name": "magereva/module-core",
+  "description": "Reva Core for Magento 2",
+  "type": "magento2-module",
+  "version": "0.0.1",
+  "license": "proprietary",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "authors": [
+    {
+      "name": "Reva",
+      "homepage": "https://revamagento.w3spaces.com",
+      "role": "Technical Support"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
     ],
-    "autoload": {
-      "files": [
-        "registration.php"
-      ],
-      "psr-4": {
-        "Reva\\Core\\": ""
-      }
+    "psr-4": {
+      "Reva\\Core\\": ""
     }
   }
+}
