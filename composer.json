@@ -1,6 +1,6 @@
 {
   "name": "magereva/module-core",
-  "description": "Reva Core for Magento 2",
+  "description": "MageReva Core for Magento 2",
   "type": "magento2-module",
   "version": "1.0.0",
   "license": "proprietary",
@@ -8,7 +8,7 @@
   "prefer-stable": true,
   "authors": [
     {
-      "name": "Reva",
+      "name": "MageReva",
       "homepage": "https://revamagento.w3spaces.com",
       "role": "Technical Support"
     }
@@ -18,7 +18,7 @@
       "registration.php"
     ],
     "psr-4": {
-      "Reva\\Core\\": ""
+      "MageReva\\Core\\": ""
     }
   }
 }

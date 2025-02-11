@@ -10,13 +10,13 @@ declare(strict_types=1);
  * This source file is subject to the EULA
  * that is bundled with this package in the file LICENSE.txt.
  *
- * @category   Reva
- * @package    Reva_Core
+ * @category   MageReva
+ * @package    MageReva_Core
  * @author     Extension Team
  * @copyright  © 2024 - RevaMagento - All rights reserved
  */
 
-namespace Reva\Core\Block\Adminhtml;
+namespace MageReva\Core\Block\Adminhtml;
 
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;

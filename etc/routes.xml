@@ -3,7 +3,7 @@
     xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:app/etc/routes.xsd">
     <router id="admin">
         <route id="admin" frontName="reva">
-            <module name="Reva_Core"/>
+            <module name="MageReva_Core"/>
         </route>
     </router>
 </config>
