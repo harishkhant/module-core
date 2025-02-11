@@ -1,6 +1,6 @@
 # Reva Core for Magento 2
 
-[![Latest Stable Version](http://poser.pugx.org/phpunit/phpunit/v)](https://packagist.org/packages/phpunit/phpunit)
+Core
 
 ## How to install & upgrade Reva_Core
 
