@@ -10,11 +10,11 @@
             dependsOnConfig="reva_config/reva_menu/menu_enable"
         />
         <add id="Reva_Core::mage_reva"
-			title="MageReva"
-			module="Reva_Core"
-			parent="Reva_Core::reva_menu"
-			sortOrder="20"
-			resource="Magento_Backend::content"
-		/>
+	    title="MageReva"
+	    module="Reva_Core"
+	    parent="Reva_Core::reva_menu"
+	    sortOrder="20"
+	    resource="Magento_Backend::content"
+	/>
     </menu>
 </config>
