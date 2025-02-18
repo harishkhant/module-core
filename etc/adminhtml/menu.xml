@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+   <menu>
+      <add id="Reva_Core::reva_menu" title="MageReva" module="Reva_Core" sortOrder="20" resource="Magento_Backend::content" dependsOnConfig="reva_config/reva_menu/menu_enable" />
+      <add id="Reva_Core::mage_reva" title="MageReva" module="Reva_Core" parent="Reva_Core::reva_menu" sortOrder="20" resource="Magento_Backend::content" />
+      <add id="Reva_Core::reva_configuration" title="Configuration" module="Reva_Core" parent="Reva_Core::reva_menu" sortOrder="20" resource="Magento_Backend::content" />
+      <add id="Reva_Core::reva_config" title="Reva Information" module="Reva_Core" sortOrder="1" action="adminhtml/system_config/edit/section/reva_config/" parent="Reva_Core::reva_configuration" resource="Magento_Backend::content" />
+   </menu>
+</config>
