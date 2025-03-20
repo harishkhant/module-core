@@ -1,0 +1,111 @@
+// Variables
+@primary-color: #1e90ff;
+@border-color: #918c8c;
+@background-color: #eaf5e1;
+@module-color: #40748e;
+@module-highlight: #00f;
+@submenu-color: #a79d95;
+
+.config-nav {
+    .reva-tab {
+        .admin__page-nav-title {
+            &:before {
+                background: url('@{baseDir}/Reva_Core/images/reva-dark.png') no-repeat center;
+                background-size: contain;
+                content: '';
+                display: inline-block;
+                height: 30px;
+                position: absolute;
+                top: 11px;
+                width: 30px;
+            }
+            strong {
+                margin-left: 40px;
+            }
+        }
+    }
+}
+.admin__menu {
+    .level-0 {
+        &.item-reva-menu {
+            >a {
+                &:before {
+                    background-image: url('@{baseDir}/Reva_Core/images/reva-light.png');
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    content: '';
+                    height: 22px;
+                    margin: 0 auto;
+                    margin-bottom: .3rem;
+                    text-align: center;
+                }
+            }
+            &:hover {
+                >a {
+                    &:before {
+                        background-image: url('@{baseDir}/Reva_Core/images/reva-active.png');
+                    }
+                }
+            }
+        }
+    }
+}
+
+.reva-info {
+    background-color: @background-color;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+
+    .reva-logo {
+        background-image: url('@{baseDir}/Reva_Core/images/reva.png');
+        background-position: center;
+        background-size: contain;
+        bottom: -9px;
+        display: inline-block;
+        height: 41px;
+        margin-left: 4px;
+        margin-right: 5px;
+        position: relative;
+        width: 41px;
+    }
+
+    a {
+        border-left: 2px solid @border-color;
+        color: @primary-color;
+        font-weight: bold !important;
+        padding-left: 5px;
+
+        &:first-child {
+            border-left: none;
+            padding-left: 5px;
+        }
+    }
+}
+
+.reva-module {
+    color: @module-color;
+    font-size: 18px;
+    font-weight: 800;
+
+    span {
+        color: @module-highlight;
+    }
+}
+
+.admin__menu {
+    .submenu {
+        .item-zarathemes-askforquote {
+            a {
+                pointer-events: none;
+
+                span {
+                    color: @submenu-color;
+                    font-size: 1.6rem;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}
