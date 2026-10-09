@@ -1,0 +1,140 @@
+<?php
+/**
+ * Reva Magento 2
+ *
+ * @category   Reva
+ * @package    Reva_Core
+ * @copyright  © 2024 - RevaMagento - All rights reserved
+ */
+
+/** @var \Reva\Core\Block\Adminhtml\System\Config\Information $block */
+/** @var \Magento\Framework\Escaper $escaper */
+$linkAttributes = 'target="_blank" rel="noopener"';
+?>
+<tr>
+    <td colspan="4">
+        <section class="reva-info" aria-labelledby="reva-info-title">
+            <header class="reva-info__header">
+                <a class="reva-info__brand" <?= /* @noEscape */ $linkAttributes ?>
+                   href="<?= $escaper->escapeUrl($block->getWebsiteUrl('', 'logo')) ?>"
+                   title="<?= $escaper->escapeHtmlAttr(__('RevaMagento - Magento agency and extension developer')) ?>">
+                    <img class="reva-info__logo" src="<?= $escaper->escapeUrl($block->getLogoUrl()) ?>"
+                         alt="<?= $escaper->escapeHtmlAttr(__('RevaMagento logo')) ?>" width="141" height="42"/>
+                </a>
+                <div class="reva-info__intro">
+                    <p class="reva-info__eyebrow"><?= $escaper->escapeHtml(__('One stop for global success')) ?></p>
+                    <h2 id="reva-info-title" class="reva-info__title">
+                        <?= $escaper->escapeHtml(__('Full-service Magento agency & extension developer')) ?>
+                    </h2>
+                    <p class="reva-info__text">
+                        <?= $escaper->escapeHtml(__(
+                            'RevaMagento builds Magento 2 marketplace extensions, custom themes and Hyvä storefronts, '
+                            . 'and makes Magento stores fast and easy to find with SEO and performance optimization.'
+                        )) ?>
+                    </p>
+                </div>
+                <div class="reva-info__cta">
+                    <a class="action-primary reva-info__button" <?= /* @noEscape */ $linkAttributes ?>
+                       href="<?= $escaper->escapeUrl($block->getWebsiteUrl('#contact', 'hire-us')) ?>">
+                        <?= $escaper->escapeHtml(__('Hire Magento developers')) ?>
+                    </a>
+                    <a class="action-secondary reva-info__button" <?= /* @noEscape */ $linkAttributes ?>
+                       href="<?= $escaper->escapeUrl($block->getWebsiteUrl('#services', 'services')) ?>">
+                        <?= $escaper->escapeHtml(__('View our services')) ?>
+                    </a>
+                </div>
+            </header>
+
+            <div class="reva-info__grid">
+                <div class="reva-info__card">
+                    <h3 class="reva-info__heading"><?= $escaper->escapeHtml(__('Reva extensions for Magento 2')) ?></h3>
+                    <ul class="reva-info__extensions">
+                        <?php foreach ($block->getExtensions() as $extension): ?>
+                            <li class="reva-info__extension">
+                                <div>
+                                    <strong><?= $escaper->escapeHtml($extension['name']) ?></strong>
+                                    <p><?= $escaper->escapeHtml($extension['description']) ?></p>
+                                </div>
+                                <?php if ($extension['installed']): ?>
+                                    <span class="reva-info__badge reva-info__badge--installed">
+                                        <?= $escaper->escapeHtml(__('Installed')) ?>
+                                    </span>
+                                <?php else: ?>
+                                    <?php
+                                    $learnMoreUrl = $block->getWebsiteUrl(
+                                        '#services',
+                                        strtolower($extension['module'])
+                                    );
+                                    $learnMoreTitle = __('Learn more about %1 for Magento 2', $extension['name']);
+                                    ?>
+                                    <a class="reva-info__badge" <?= /* @noEscape */ $linkAttributes ?>
+                                       href="<?= $escaper->escapeUrl($learnMoreUrl) ?>"
+                                       title="<?= $escaper->escapeHtmlAttr($learnMoreTitle) ?>">
+                                        <?= $escaper->escapeHtml(__('Learn more')) ?>
+                                    </a>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+
+                <div class="reva-info__card">
+                    <h3 class="reva-info__heading"><?= $escaper->escapeHtml(__('Magento services')) ?></h3>
+                    <ul class="reva-info__services">
+                        <?php foreach ($block->getServices() as $service): ?>
+                            <li><?= $escaper->escapeHtml($service) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <p class="reva-info__note">
+                        <?= $escaper->escapeHtml(__(
+                            'Free consultation, fixed scope agreed up front and code you own - no lock-in fees.'
+                        )) ?>
+                    </p>
+                </div>
+
+                <div class="reva-info__card">
+                    <h3 class="reva-info__heading"><?= $escaper->escapeHtml(__('Support & contact')) ?></h3>
+                    <ul class="reva-info__contact">
+                        <li>
+                            <span><?= $escaper->escapeHtml(__('Email')) ?></span>
+                            <a href="mailto:<?= $escaper->escapeHtmlAttr($block::SUPPORT_EMAIL) ?>?subject=<?=
+                                $escaper->escapeUrl(rawurlencode((string)__('Reva extension support'))) ?>">
+                                <?= $escaper->escapeHtml($block::SUPPORT_EMAIL) ?>
+                            </a>
+                        </li>
+                        <li>
+                            <span><?= $escaper->escapeHtml(__('Phone')) ?></span>
+                            <a href="tel:<?= $escaper->escapeHtmlAttr($block::SUPPORT_PHONE) ?>">
+                                <?= $escaper->escapeHtml($block::SUPPORT_PHONE_LABEL) ?>
+                            </a>
+                        </li>
+                        <li>
+                            <span><?= $escaper->escapeHtml(__('Location')) ?></span>
+                            <?= $escaper->escapeHtml($block::LOCATION) ?>
+                        </li>
+                        <li>
+                            <span><?= $escaper->escapeHtml(__('Website')) ?></span>
+                            <a <?= /* @noEscape */ $linkAttributes ?>
+                               href="<?= $escaper->escapeUrl($block->getWebsiteUrl('', 'website')) ?>">
+                                <?= $escaper->escapeHtml(__('RevaMagento website')) ?>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="reva-info__note">
+                        <?= $escaper->escapeHtml(__('Every enquiry is answered within two working days.')) ?>
+                    </p>
+                </div>
+            </div>
+
+            <footer class="reva-info__footer">
+                <span>
+                    &copy; <?= $escaper->escapeHtml(__('RevaMagento. Magento 2 extensions and development.')) ?>
+                </span>
+                <a <?= /* @noEscape */ $linkAttributes ?>
+                   href="<?= $escaper->escapeUrl($block->getWebsiteUrl('privacy-policy', 'privacy')) ?>">
+                    <?= $escaper->escapeHtml(__('Privacy & Cookie Policy')) ?>
+                </a>
+            </footer>
+        </section>
+    </td>
+</tr>
