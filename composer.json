@@ -1,24 +1,32 @@
 {
-  "name": "magereva/module-core",
-  "description": "Reva Core for Magento 2",
-  "type": "magento2-module",
-  "version": "1.0.0",
-  "license": "proprietary",
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "authors": [
-    {
-      "name": "Reva",
-      "homepage": "https://revamagento.w3spaces.com",
-      "role": "Technical Support"
-    }
-  ],
-  "autoload": {
-    "files": [
-      "registration.php"
+    "name": "magereva/module-core",
+    "description": "Reva Core for Magento 2 - shared admin menu, configuration tab and color picker for Reva extensions",
+    "type": "magento2-module",
+    "version": "1.0.1",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
     ],
-    "psr-4": {
-      "Reva\\Core\\": ""
+    "authors": [
+        {
+            "name": "Reva",
+            "homepage": "https://revamagento.w3spaces.com",
+            "role": "Technical Support"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "magento/framework": "^103.0.4",
+        "magento/module-backend": "^102.0.4",
+        "magento/module-config": "^101.2.4",
+        "magento/module-store": "^101.1.4"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Reva\\Core\\": ""
+        }
     }
-  }
 }

@@ -1,48 +1,63 @@
-// Variables
-@primary-color: #1e90ff;
-@border-color: #918c8c;
-@background-color: #eaf5e1;
-@module-color: #40748e;
-@module-highlight: #00f;
-@submenu-color: #a79d95;
+//  Reva brand colors
+@reva-navy: #003050;
+@reva-navy-dark: #00243d;
+@reva-gold: #ffde59;
+@reva-gold-soft: #fff6d6;
+@reva-muted: #6b7f93;
+@reva-line: #e3e9ef;
+@reva-white: #fff;
+@reva-gold-text: #7a6400;
+@reva-card: #f8fafc;
+@reva-success-bg: #e6f4ea;
+@reva-success-border: #8cc79f;
+@reva-success-text: #1e6b37;
 
+//  Configuration tab icon
 .config-nav {
     .reva-tab {
         .admin__page-nav-title {
             &:before {
-                background: url('@{baseDir}/Reva_Core/images/reva-dark.png') no-repeat center;
+                background: url('@{baseDir}/Reva_Core/images/reva-dark.png') no-repeat left center;
                 background-size: contain;
                 content: '';
                 display: inline-block;
-                height: 30px;
+                height: 16px;
+                left: 1.5rem;
                 position: absolute;
-                top: 11px;
-                width: 30px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 54px;
             }
+
             strong {
-                margin-left: 40px;
+                margin-left: 62px;
             }
         }
     }
 }
+
+//  Admin sidebar menu icon
 .admin__menu {
     .level-0 {
         &.item-reva-menu {
-            >a {
+            > a {
                 &:before {
                     background-image: url('@{baseDir}/Reva_Core/images/reva-light.png');
                     background-position: center;
                     background-repeat: no-repeat;
-                    background-size: contain;
+                    background-size: 4.4rem auto;
                     content: '';
-                    height: 22px;
+                    height: 2.2rem;
                     margin: 0 auto;
                     margin-bottom: .3rem;
                     text-align: center;
                 }
             }
-            &:hover {
-                >a {
+
+            &:hover,
+            &._active,
+            &._show {
+                > a {
                     &:before {
                         background-image: url('@{baseDir}/Reva_Core/images/reva-active.png');
                     }
@@ -52,60 +67,248 @@
     }
 }
 
+//  Information & Marketplace panel
 .reva-info {
-    background-color: @background-color;
-    font-weight: 600;
-    margin-bottom: 12px;
-    padding-bottom: 10px;
-
-    .reva-logo {
-        background-image: url('@{baseDir}/Reva_Core/images/reva.png');
-        background-position: center;
-        background-size: contain;
-        bottom: -9px;
-        display: inline-block;
-        height: 41px;
-        margin-left: 4px;
-        margin-right: 5px;
-        position: relative;
-        width: 41px;
-    }
+    background: @reva-white;
+    border: 1px solid @reva-line;
+    border-top: 4px solid @reva-gold;
+    color: @reva-navy;
+    margin: 0 0 2rem;
+    padding: 2.4rem;
 
     a {
-        border-left: 2px solid @border-color;
-        color: @primary-color;
-        font-weight: bold !important;
-        padding-left: 5px;
+        color: @reva-navy;
+        font-weight: 600;
+        text-decoration: underline;
+        text-decoration-color: @reva-gold;
+        text-underline-offset: 3px;
 
-        &:first-child {
-            border-left: none;
-            padding-left: 5px;
+        &:hover,
+        &:focus {
+            color: @reva-navy-dark;
+            text-decoration-thickness: 2px;
         }
     }
-}
 
-.reva-module {
-    color: @module-color;
-    font-size: 18px;
-    font-weight: 800;
+    &__header {
+        align-items: center;
+        border-bottom: 1px solid @reva-line;
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: auto 1fr auto;
+        padding-bottom: 2rem;
+    }
 
-    span {
-        color: @module-highlight;
+    &__brand {
+        display: inline-block;
+        text-decoration: none !important;
+    }
+
+    &__logo {
+        display: block;
+        height: auto;
+        max-width: 141px;
+    }
+
+    &__eyebrow {
+        color: @reva-gold-text;
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: .08em;
+        margin: 0 0 .4rem;
+        text-transform: uppercase;
+    }
+
+    &__title {
+        color: @reva-navy;
+        font-size: 2.2rem;
+        font-weight: 700;
+        line-height: 1.25;
+        margin: 0 0 .6rem;
+    }
+
+    &__text {
+        color: @reva-muted;
+        font-size: 1.4rem;
+        line-height: 1.6;
+        margin: 0;
+        max-width: 72rem;
+    }
+
+    &__cta {
+        display: flex;
+        flex-direction: column;
+        gap: .8rem;
+    }
+
+    &__button {
+        text-align: center;
+        text-decoration: none !important;
+        white-space: nowrap;
+
+        &.action-primary {
+            background: @reva-navy;
+            border-color: @reva-navy;
+            color: @reva-white !important;
+
+            &:hover,
+            &:focus {
+                background: @reva-navy-dark;
+                border-color: @reva-navy-dark;
+            }
+        }
+
+        &.action-secondary {
+            background: @reva-white;
+            border: 1px solid @reva-navy;
+            color: @reva-navy !important;
+
+            &:hover,
+            &:focus {
+                background: @reva-gold-soft;
+                border-color: @reva-navy-dark;
+                color: @reva-navy-dark !important;
+            }
+        }
+    }
+
+    &__grid {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: 1.4fr 1fr 1fr;
+        padding: 2rem 0;
+    }
+
+    &__card {
+        background: @reva-card;
+        border: 1px solid @reva-line;
+        padding: 1.8rem;
+    }
+
+    &__heading {
+        color: @reva-navy;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin: 0 0 1.2rem;
+    }
+
+    &__extensions,
+    &__services,
+    &__contact {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    &__extension {
+        align-items: flex-start;
+        border-top: 1px solid @reva-line;
+        display: flex;
+        gap: 1.2rem;
+        justify-content: space-between;
+        padding: 1rem 0;
+
+        &:first-child {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+        p {
+            color: @reva-muted;
+            font-size: 1.3rem;
+            line-height: 1.5;
+            margin: .3rem 0 0;
+        }
+    }
+
+    &__badge {
+        background: @reva-gold-soft;
+        border: 1px solid @reva-gold;
+        border-radius: 999px;
+        flex-shrink: 0;
+        font-size: 1.2rem;
+        font-weight: 700;
+        padding: .2rem 1rem;
+        text-decoration: none !important;
+
+        &--installed {
+            background: @reva-success-bg;
+            border-color: @reva-success-border;
+            color: @reva-success-text;
+        }
+    }
+
+    &__services {
+        display: grid;
+        gap: .6rem 1.2rem;
+        grid-template-columns: 1fr 1fr;
+
+        li {
+            font-size: 1.3rem;
+            padding-left: 1.4rem;
+            position: relative;
+
+            &:before {
+                background: @reva-gold;
+                border-radius: 50%;
+                content: '';
+                height: .6rem;
+                left: 0;
+                position: absolute;
+                top: .6rem;
+                width: .6rem;
+            }
+        }
+    }
+
+    &__contact {
+        li {
+            font-size: 1.3rem;
+            margin-bottom: .8rem;
+            word-break: break-word;
+        }
+
+        span {
+            color: @reva-muted;
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+    }
+
+    &__note {
+        color: @reva-muted;
+        font-size: 1.2rem;
+        margin: 1.2rem 0 0;
+    }
+
+    &__footer {
+        border-top: 1px solid @reva-line;
+        color: @reva-muted;
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 1.2rem;
+        gap: 1rem;
+        justify-content: space-between;
+        padding-top: 1.6rem;
     }
 }
 
-.admin__menu {
-    .submenu {
-        .item-zarathemes-askforquote {
-            a {
-                pointer-events: none;
+@media (max-width: 1280px) {
+    .reva-info {
+        &__header {
+            grid-template-columns: auto 1fr;
+        }
 
-                span {
-                    color: @submenu-color;
-                    font-size: 1.6rem;
-                    font-weight: 600;
-                }
-            }
+        &__cta {
+            flex-direction: row;
+            grid-column: 1 / -1;
+        }
+
+        &__grid {
+            grid-template-columns: 1fr;
         }
     }
 }

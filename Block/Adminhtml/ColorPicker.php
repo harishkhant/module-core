@@ -7,7 +7,7 @@ declare(strict_types=1);
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the EULA
+ * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  *
  * @category   Reva
@@ -35,7 +35,8 @@ class ColorPicker extends Field
     protected function _getElementHtml(AbstractElement $element)
     {
         $html = $element->getElementHtml();
-        $value = $element->getData('value');
+        $htmlId = $this->_escaper->escapeJs($element->getHtmlId());
+        $color = $this->getHexColor($element->getData('value'));
 
         $html .= '<script>
             require([
@@ -43,16 +44,18 @@ class ColorPicker extends Field
                 "jquery/colorpicker/js/colorpicker",
                 "domReady!"
                 ], function ($) {
-                var el = $("#' . $element->getHtmlId() . '");
+                var el = $("#' . $htmlId . '");
 
-                el.css("background-color", "#' . $value . '");
+                if ("' . $color . '") {
+                    el.css("background-color", "#' . $color . '");
+                }
                 el.ColorPicker({
                     layout: "hex",
                     onChange: function (hsb, hex, rgb) {
-                        el.css("background-color", "#"+hex);
+                        el.css("background-color", "#" + hex);
                         el.val(hex);
                     }
-                }).keyup(function() {
+                }).keyup(function () {
                     var value = el.val();
                     $(this).ColorPickerSetColor(value);
                     el.css("background-color", "#" + value);
@@ -61,5 +64,16 @@ class ColorPicker extends Field
             </script>';
 
         return $html;
+    }
+
+    /**
+     * Keep only the hexadecimal digits of a stored color, without the leading "#"
+     *
+     * @param mixed $value
+     * @return string
+     */
+    public function getHexColor($value): string
+    {
+        return substr((string)preg_replace('/[^0-9a-f]/i', '', (string)$value), 0, 8);
     }
 }
