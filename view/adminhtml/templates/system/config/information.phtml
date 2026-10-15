@@ -45,84 +45,54 @@ $linkAttributes = 'target="_blank" rel="noopener"';
                 </div>
             </header>
 
-            <?php $premiumExtensions = $block->getPremiumExtensions(); ?>
-            <?php if ($premiumExtensions): ?>
-                <div class="reva-info__premium">
-                    <div class="reva-info__premium-head">
-                        <h3 class="reva-info__heading"><?= $escaper->escapeHtml(__('Premium extensions')) ?></h3>
-                        <p class="reva-info__text">
-                            <?= $escaper->escapeHtml(__(
-                                'Paid RevaMagento extensions with advanced features for growing stores.'
-                            )) ?>
-                        </p>
-                    </div>
-                    <ul class="reva-info__premium-list">
-                        <?php foreach ($premiumExtensions as $extension): ?>
-                            <li class="reva-info__premium-item">
-                                <div class="reva-info__premium-title">
-                                    <strong><?= $escaper->escapeHtml($extension['name']) ?></strong>
-                                    <span class="reva-info__badge reva-info__badge--premium">
-                                        <?= $escaper->escapeHtml(__('Premium')) ?>
-                                    </span>
-                                </div>
-                                <p><?= $escaper->escapeHtml($extension['description']) ?></p>
-                                <?php if ($extension['highlights']): ?>
-                                    <ul class="reva-info__highlights">
-                                        <?php foreach ($extension['highlights'] as $highlight): ?>
-                                            <li><?= $escaper->escapeHtml($highlight) ?></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                <?php endif; ?>
-                                <?php if ($extension['installed']): ?>
-                                    <span class="reva-info__badge reva-info__badge--installed">
-                                        <?= $escaper->escapeHtml(__('Installed')) ?>
-                                    </span>
-                                <?php else: ?>
-                                    <?php
-                                    $learnMoreUrl = $block->getLearnMoreUrl($extension);
-                                    $learnMoreTitle = __('Learn more about %1 for Magento 2', $extension['name']);
-                                    ?>
-                                    <a class="action-secondary reva-info__button reva-info__premium-link"
-                                       <?= /* @noEscape */ $linkAttributes ?>
-                                       href="<?= $escaper->escapeUrl($learnMoreUrl) ?>"
-                                       title="<?= $escaper->escapeHtmlAttr($learnMoreTitle) ?>">
-                                        <?= $escaper->escapeHtml(__('Learn more')) ?>
-                                    </a>
-                                <?php endif; ?>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            <?php endif; ?>
+            <?php
+            $learnMore = function (array $extension, string $class) use ($block, $escaper, $linkAttributes): string {
+                if ($extension['installed']) {
+                    return '<span class="reva-info__badge reva-info__badge--installed">'
+                        . $escaper->escapeHtml(__('Installed')) . '</span>';
+                }
 
+                return '<a class="' . $escaper->escapeHtmlAttr($class) . '" ' . $linkAttributes
+                    . ' href="' . $escaper->escapeUrl($block->getLearnMoreUrl($extension)) . '"'
+                    . ' title="' . $escaper->escapeHtmlAttr(__('Learn more about %1 for Magento 2', $extension['name']))
+                    . '">' . $escaper->escapeHtml(__('Learn more')) . '</a>';
+            };
+            $freeItem = function (array $extension) use ($escaper, $learnMore): string {
+                return '<li class="reva-info__extension"><div><strong>' . $escaper->escapeHtml($extension['name'])
+                    . '</strong><p>' . $escaper->escapeHtml($extension['description']) . '</p></div>'
+                    . $learnMore($extension, 'reva-info__badge') . '</li>';
+            };
+            $premiumExtensions = $block->getPremiumExtensions();
+            $freeExtensions = $block->getExtensions();
+            $freeShown = 4;
+            ?>
             <div class="reva-info__grid">
                 <div class="reva-info__card">
-                    <h3 class="reva-info__heading"><?= $escaper->escapeHtml(__('Free extensions')) ?></h3>
+                    <h3 class="reva-info__heading">
+                        <?= $escaper->escapeHtml(__('Free extensions')) ?>
+                        <span class="reva-info__count"><?= count($freeExtensions) ?></span>
+                    </h3>
                     <ul class="reva-info__extensions">
-                        <?php foreach ($block->getExtensions() as $extension): ?>
-                            <li class="reva-info__extension">
-                                <div>
-                                    <strong><?= $escaper->escapeHtml($extension['name']) ?></strong>
-                                    <p><?= $escaper->escapeHtml($extension['description']) ?></p>
-                                </div>
-                                <?php if ($extension['installed']): ?>
-                                    <span class="reva-info__badge reva-info__badge--installed">
-                                        <?= $escaper->escapeHtml(__('Installed')) ?>
-                                    </span>
-                                <?php else: ?>
-                                    <?php
-                                    $learnMoreUrl = $block->getLearnMoreUrl($extension);
-                                    $learnMoreTitle = __('Learn more about %1 for Magento 2', $extension['name']);
-                                    ?>
-                                    <a class="reva-info__badge" <?= /* @noEscape */ $linkAttributes ?>
-                                       href="<?= $escaper->escapeUrl($learnMoreUrl) ?>"
-                                       title="<?= $escaper->escapeHtmlAttr($learnMoreTitle) ?>">
-                                        <?= $escaper->escapeHtml(__('Learn more')) ?>
-                                    </a>
-                                <?php endif; ?>
-                            </li>
+                        <?php foreach (array_slice($freeExtensions, 0, $freeShown) as $extension): ?>
+                            <?= /* @noEscape */ $freeItem($extension) ?>
                         <?php endforeach; ?>
                     </ul>
+                    <?php if (count($freeExtensions) > $freeShown): ?>
+                        <details class="reva-info__more reva-info__more--list">
+                            <summary>
+                                <span class="reva-info__closed-label"><?= $escaper->escapeHtml(__(
+                                    'Show %1 more free extensions',
+                                    count($freeExtensions) - $freeShown
+                                )) ?></span>
+                                <span class="reva-info__open-label"><?= $escaper->escapeHtml(__('Show fewer')) ?></span>
+                            </summary>
+                            <ul class="reva-info__extensions">
+                                <?php foreach (array_slice($freeExtensions, $freeShown) as $extension): ?>
+                                    <?= /* @noEscape */ $freeItem($extension) ?>
+                                <?php endforeach; ?>
+                            </ul>
+                        </details>
+                    <?php endif; ?>
                 </div>
 
                 <div class="reva-info__card">
@@ -172,6 +142,140 @@ $linkAttributes = 'target="_blank" rel="noopener"';
                     </p>
                 </div>
             </div>
+
+            <?php if ($premiumExtensions): ?>
+                <?php
+                $isSingle = count($premiumExtensions) === 1;
+                $modalConfig = [
+                    'Reva_Core/js/premium-modal' => [
+                        'title' => (string)__('Premium extensions'),
+                        'single' => $isSingle,
+                    ],
+                ];
+                $initials = static function (string $name): string {
+                    $words = preg_split('/[^A-Za-z0-9]+/', $name, -1, PREG_SPLIT_NO_EMPTY) ?: ['R'];
+
+                    return strtoupper(substr($words[0], 0, 1) . (isset($words[1]) ? substr($words[1], 0, 1) : ''));
+                };
+                $names = implode(', ', array_map(
+                    static fn (array $extension) => '<strong>' . $escaper->escapeHtml($extension['name']) . '</strong>',
+                    array_slice($premiumExtensions, 0, 3)
+                ));
+                if (count($premiumExtensions) > 3) {
+                    $names .= ' ' . $escaper->escapeHtml(__('and %1 more', count($premiumExtensions) - 3));
+                }
+                ?>
+                <div class="reva-info__promo"
+                     data-mage-init='<?= $escaper->escapeHtmlAttr(json_encode($modalConfig)) ?>'>
+                    <div class="reva-info__promo-text">
+                        <p class="reva-info__eyebrow">
+                            <?= $escaper->escapeHtml(__('Premium extensions')) ?>
+                            <span class="reva-info__count"><?= count($premiumExtensions) ?></span>
+                        </p>
+                        <h3 class="reva-info__promo-title">
+                            <?= $escaper->escapeHtml(__('Paid extensions that pay for themselves')) ?>
+                        </h3>
+                        <p class="reva-info__promo-copy">
+                            <?= $escaper->escapeHtml(__(
+                                'A ready-made extension costs a fraction of custom development and goes live in hours, '
+                                . 'not weeks. Built and supported by the RevaMagento team.'
+                            )) ?>
+                        </p>
+                        <p class="reva-info__promo-now">
+                            <?= $escaper->escapeHtml(__('Available now:')) ?> <?= /* @noEscape */ $names ?>
+                        </p>
+                    </div>
+                    <div class="reva-info__promo-actions">
+                        <button type="button" class="action-primary reva-info__button reva-info__button--gold"
+                                data-role="reva-premium-open" aria-haspopup="dialog">
+                            <?= $escaper->escapeHtml(__('View premium extensions')) ?>
+                        </button>
+                        <a class="action-secondary reva-info__button reva-info__button--line"
+                           <?= /* @noEscape */ $linkAttributes ?>
+                           href="<?= $escaper->escapeUrl($block->getWebsiteUrl('#contact', 'premium-question')) ?>">
+                            <?= $escaper->escapeHtml(__('Ask a question')) ?>
+                        </a>
+                    </div>
+
+                    <div class="reva-premium<?= $isSingle ? ' reva-premium--single' : '' ?>"
+                         data-role="reva-premium-modal" hidden>
+                        <?php if (!$isSingle): ?>
+                            <div class="reva-premium__list" role="tablist"
+                                 aria-label="<?= $escaper->escapeHtmlAttr(__('Premium extensions')) ?>"
+                                 aria-orientation="vertical">
+                                <?php foreach ($premiumExtensions as $i => $extension): ?>
+                                    <button type="button" class="reva-premium__tab" role="tab"
+                                            id="reva-premium-tab-<?= (int)$i ?>"
+                                            aria-controls="reva-premium-pane-<?= (int)$i ?>"
+                                            aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"
+                                            tabindex="<?= $i === 0 ? '0' : '-1' ?>">
+                                        <span class="reva-premium__tile" aria-hidden="true">
+                                            <?= $escaper->escapeHtml($initials((string)$extension['name'])) ?>
+                                        </span>
+                                        <span class="reva-premium__tab-text">
+                                            <?= $escaper->escapeHtml($extension['name']) ?>
+                                            <small><?= $escaper->escapeHtml($extension['description']) ?></small>
+                                        </span>
+                                    </button>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                        <div class="reva-premium__panes">
+                            <?php foreach ($premiumExtensions as $i => $extension): ?>
+                                <section class="reva-premium__pane" id="reva-premium-pane-<?= (int)$i ?>"
+                                    <?php if (!$isSingle): ?>
+                                        role="tabpanel" aria-labelledby="reva-premium-tab-<?= (int)$i ?>"
+                                    <?php endif; ?>
+                                    <?= $i > 0 ? 'hidden' : '' ?>>
+                                    <div class="reva-premium__top">
+                                        <span class="reva-premium__tile reva-premium__tile--large" aria-hidden="true">
+                                            <?= $escaper->escapeHtml($initials((string)$extension['name'])) ?>
+                                        </span>
+                                        <div>
+                                            <h3 class="reva-premium__name">
+                                                <?= $escaper->escapeHtml($extension['name']) ?>
+                                            </h3>
+                                            <span class="reva-info__badge reva-info__badge--premium">
+                                                <?= $escaper->escapeHtml(__('Premium')) ?>
+                                            </span>
+                                            <?php if ($extension['installed']): ?>
+                                                <span class="reva-info__badge reva-info__badge--installed">
+                                                    <?= $escaper->escapeHtml(__('Installed')) ?>
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                    <p class="reva-premium__desc">
+                                        <?= $escaper->escapeHtml($extension['description']) ?>
+                                    </p>
+                                    <?php if ($extension['highlights']): ?>
+                                        <ul class="reva-premium__feats">
+                                            <?php foreach ($extension['highlights'] as $highlight): ?>
+                                                <li><?= $escaper->escapeHtml($highlight) ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php endif; ?>
+                                    <div class="reva-premium__actions">
+                                        <?php if (!$extension['installed']): ?>
+                                            <a class="action-primary reva-info__button"
+                                               <?= /* @noEscape */ $linkAttributes ?>
+                                               href="<?= $escaper->escapeUrl($block->getLearnMoreUrl($extension)) ?>">
+                                                <?= $escaper->escapeHtml(__('Learn more')) ?>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php $mailSubject = rawurlencode($extension['name'] . ' (premium)'); ?>
+                                        <a class="action-secondary reva-info__button"
+                                           href="mailto:<?= $escaper->escapeHtmlAttr($block::SUPPORT_EMAIL)
+                                            ?>?subject=<?= $escaper->escapeUrl($mailSubject) ?>">
+                                            <?= $escaper->escapeHtml(__('Contact us')) ?>
+                                        </a>
+                                    </div>
+                                </section>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
 
             <footer class="reva-info__footer">
                 <span>
