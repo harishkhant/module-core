@@ -5,6 +5,7 @@
         <reva_config>
             <reva_menu>
                 <menu_enable>1</menu_enable>
+                <remote_feed>1</remote_feed>
             </reva_menu>
         </reva_config>
     </default>

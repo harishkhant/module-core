@@ -23,6 +23,7 @@ use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
 use Magento\Framework\Module\Manager as ModuleManager;
+use Reva\Core\Model\ExtensionFeed;
 
 /**
  * Renders the RevaMagento information panel in Stores > Configuration > Reva > Information & Marketplace
@@ -57,11 +58,13 @@ class Information extends Template implements RendererInterface
     /**
      * @param Context $context
      * @param ModuleManager $moduleManager
+     * @param ExtensionFeed $extensionFeed
      * @param array $data
      */
     public function __construct(
         Context $context,
         private readonly ModuleManager $moduleManager,
+        private readonly ExtensionFeed $extensionFeed,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -104,41 +107,53 @@ class Information extends Template implements RendererInterface
     }
 
     /**
-     * Get the Reva extensions with their install status
+     * "Learn more" link of an extension: its own page (website or Marketplace) or a page on the website
      *
-     * @return array[]
+     * @param array $extension
+     * @return string
+     * @phpstan-param array<string, mixed> $extension
+     */
+    public function getLearnMoreUrl(array $extension): string
+    {
+        $url = (string)($extension['url'] ?? '');
+        if ($url !== '') {
+            return $url;
+        }
+
+        return $this->getWebsiteUrl(
+            (string)($extension['path'] ?? '#services'),
+            strtolower((string)($extension['module'] ?? 'extension'))
+        );
+    }
+
+    /**
+     * Get the free Reva extensions with their install status
+     *
+     * The list comes from the online extension list when available, otherwise from the bundled list.
+     *
+     * @return array<int, array<string, mixed>>
      */
     public function getExtensions(): array
     {
-        $extensions = [
-            [
-                'module' => 'Reva_SlidingCart',
-                'name' => __('Sliding Cart'),
-                'description' => __(
-                    'Slide-in mini cart with an order summary, tax and totals, a shipping notice and quick checkout.'
-                ),
-            ],
-            [
-                'module' => 'Reva_PopupDisplay',
-                'name' => __('Add To Cart Popup'),
-                'description' => __(
-                    'Confirms every add to cart with a popup showing the product, chosen options and checkout buttons.'
-                ),
-            ],
-            [
-                'module' => 'Reva_AddToMenu',
-                'name' => __('Add To Menu'),
-                'description' => __(
-                    'Adds custom links and a vertical category menu to the store navigation, no theme changes needed.'
-                ),
-            ],
-        ];
+        return $this->withInstallStatus(
+            $this->extensionFeed->getExtensions(ExtensionFeed::TYPE_FREE) ?? $this->getBundledFreeExtensions()
+        );
+    }
 
-        foreach ($extensions as &$extension) {
-            $extension['installed'] = $this->moduleManager->isEnabled($extension['module']);
-        }
-
-        return $extensions;
+    /**
+     * Get the premium (paid) Reva extensions with their install status
+     *
+     * Prices are deliberately not shown; "Learn more" links to the website. New paid extensions are added to the
+     * online extension list (see ExtensionFeed); the bundled list below is the fallback. The section is hidden when
+     * the list is empty.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getPremiumExtensions(): array
+    {
+        return $this->withInstallStatus(
+            $this->extensionFeed->getExtensions(ExtensionFeed::TYPE_PREMIUM) ?? $this->getBundledPremiumExtensions()
+        );
     }
 
     /**
@@ -158,6 +173,84 @@ class Information extends Template implements RendererInterface
             __('Performance tuning'),
             __('Digital marketing'),
         ];
+    }
+
+    /**
+     * Free extensions shipped with the module, used when the online list is not available
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function getBundledFreeExtensions(): array
+    {
+        return [
+            [
+                'module' => 'Reva_SlidingCart',
+                'name' => __('Sliding Cart'),
+                'description' => __(
+                    'Slide-in mini cart with an order summary, tax and totals, a shipping notice and quick checkout.'
+                ),
+                'highlights' => [],
+                'path' => '#services',
+            ],
+            [
+                'module' => 'Reva_PopupDisplay',
+                'name' => __('Add To Cart Popup'),
+                'description' => __(
+                    'Confirms every add to cart with a popup showing the product, chosen options and checkout buttons.'
+                ),
+                'highlights' => [],
+                'path' => '#services',
+            ],
+            [
+                'module' => 'Reva_AddToMenu',
+                'name' => __('Add To Menu'),
+                'description' => __(
+                    'Adds custom links and a vertical category menu to the store navigation, no theme changes needed.'
+                ),
+                'highlights' => [],
+                'path' => '#services',
+            ],
+        ];
+    }
+
+    /**
+     * Premium extensions shipped with the module, used when the online list is not available
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function getBundledPremiumExtensions(): array
+    {
+        return [
+            [
+                'module' => 'Reva_StockPriceAlert',
+                'name' => __('Stock & Price Alert'),
+                'description' => __(
+                    'Lets shoppers ask to be emailed when a product is back in stock or its price drops.'
+                ),
+                'highlights' => [
+                    __('Back-in-stock and price-drop alerts for guests and customers'),
+                    __('Product page popup, mobile friendly and full page cache safe'),
+                    __('Admin grids, email log and analytics'),
+                ],
+                'path' => '#services',
+            ],
+        ];
+    }
+
+    /**
+     * Add whether each extension is installed and enabled in this store
+     *
+     * @param array $extensions
+     * @return array<int, array<string, mixed>>
+     * @phpstan-param array<int, array<string, mixed>> $extensions
+     */
+    private function withInstallStatus(array $extensions): array
+    {
+        foreach ($extensions as &$extension) {
+            $extension['installed'] = $this->moduleManager->isEnabled((string)$extension['module']);
+        }
+
+        return $extensions;
     }
 
     /**

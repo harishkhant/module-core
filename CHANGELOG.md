@@ -2,6 +2,8 @@
 
 ## 1.0.1
 - New RevaMagento branding: updated logo in the admin sidebar menu, the configuration tab and the information panel.
+- Information & Marketplace panel: new "Premium extensions" section listing paid Reva extensions (Stock & Price
+  Alert) with highlights and installed status, without prices; the existing list is now "Free extensions".
 - Redesigned the Information & Marketplace panel: company introduction, Reva extensions with installed status,
   Magento services, and working support links (email, phone, website, privacy policy) instead of placeholders.
 - The MageReva admin menu is now highlighted when a Reva configuration page opened from it is shown

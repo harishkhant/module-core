@@ -17,8 +17,8 @@ You normally get it automatically as a dependency of a Reva extension.
 - **MageReva admin menu** - one sidebar menu with links to the settings of every installed Reva extension.
   The menu is highlighted while you are on a Reva settings page.
 - **Reva configuration tab** - all Reva settings grouped under *Stores > Configuration > Reva*.
-- **Information & Marketplace page** - shows which Reva extensions are installed, the services RevaMagento
-  offers, and support contacts.
+- **Information & Marketplace page** - shows the premium (paid) and free Reva extensions and which ones are
+  installed, the services RevaMagento offers, and support contacts. Prices are not shown.
 - **Admin permissions (ACL)** - control who can see the MageReva menu and the Information page per admin role.
 - **Color picker field** - reusable admin color picker for Reva extension settings.
 
@@ -29,6 +29,8 @@ You normally get it automatically as a dependency of a Reva extension.
 | **Sliding Cart** | Slide-in mini cart with an order summary, tax and totals, a shipping notice and quick checkout. |
 | **Add To Cart Popup** | Confirms every add to cart with a popup showing the product, chosen options and checkout buttons. |
 | **Add To Menu** | Adds custom links and a vertical category menu to the store navigation, no theme changes needed. |
+
+Premium (paid) extensions such as **Stock & Price Alert** are listed separately on the Information page.
 
 ## Requirements
 

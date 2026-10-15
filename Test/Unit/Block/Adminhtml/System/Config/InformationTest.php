@@ -18,15 +18,20 @@ use Magento\Framework\Module\Manager as ModuleManager;
 use Magento\Framework\ObjectManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Reva\Core\Block\Adminhtml\System\Config\Information;
+use Reva\Core\Model\ExtensionFeed;
 
 class InformationTest extends TestCase
 {
     /**
      * @param string[] $enabledModules
+     * @param array<string, array<int, array<string, mixed>>|null>|null $online Online list per type, null = unavailable
      * @return Information
      */
-    private function createBlock(array $enabledModules = []): Information
+    private function createBlock(array $enabledModules = [], ?array $online = null): Information
     {
+        $feed = $this->createStub(ExtensionFeed::class);
+        $feed->method('getExtensions')->willReturnCallback(fn (string $type) => $online[$type] ?? null);
+
         $objectManager = $this->createStub(ObjectManagerInterface::class);
         $objectManager->method('get')->willReturnCallback(fn ($type) => $this->createStub($type));
         ObjectManager::setInstance($objectManager);
@@ -35,7 +40,7 @@ class InformationTest extends TestCase
         $moduleManager->method('isEnabled')
             ->willReturnCallback(fn ($module) => in_array($module, $enabledModules, true));
 
-        return new Information($this->createStub(Context::class), $moduleManager);
+        return new Information($this->createStub(Context::class), $moduleManager, $feed);
     }
 
     public function testWebsiteUrlAddsCampaignBeforeFragment(): void
@@ -68,6 +73,62 @@ class InformationTest extends TestCase
             $this->assertNotSame('', (string)$extension['name']);
             $this->assertNotSame('', (string)$extension['description']);
         }
+    }
+
+    public function testPremiumExtensionsShowInstallStatusWithoutPrices(): void
+    {
+        $installed = $this->createBlock(['Reva_StockPriceAlert'])->getPremiumExtensions();
+        $notInstalled = $this->createBlock()->getPremiumExtensions();
+
+        $this->assertNotEmpty($installed);
+        $this->assertSame(['Reva_StockPriceAlert' => true], array_column($installed, 'installed', 'module'));
+        $this->assertSame(['Reva_StockPriceAlert' => false], array_column($notInstalled, 'installed', 'module'));
+        foreach ($installed as $extension) {
+            $this->assertNotSame('', (string)$extension['name']);
+            $this->assertNotSame('', (string)$extension['description']);
+            $this->assertNotEmpty($extension['highlights']);
+            $this->assertArrayNotHasKey('price', $extension);
+        }
+    }
+
+    public function testOnlineListReplacesBundledList(): void
+    {
+        $online = [
+            ExtensionFeed::TYPE_PREMIUM => [[
+                'module' => 'Reva_NewPaid',
+                'name' => 'New Paid',
+                'description' => 'Description',
+                'highlights' => ['One'],
+                'path' => 'new-paid',
+            ]],
+            ExtensionFeed::TYPE_FREE => null,
+        ];
+        $block = $this->createBlock(['Reva_NewPaid'], $online);
+
+        $premium = $block->getPremiumExtensions();
+
+        $this->assertSame(['Reva_NewPaid' => true], array_column($premium, 'installed', 'module'));
+        $this->assertSame(
+            ['Reva_SlidingCart', 'Reva_PopupDisplay', 'Reva_AddToMenu'],
+            array_column($block->getExtensions(), 'module')
+        );
+    }
+
+    public function testLearnMoreUsesExtensionUrlOrWebsitePage(): void
+    {
+        $block = $this->createBlock();
+
+        $this->assertSame(
+            'https://commercemarketplace.adobe.com/reva-slidingcart.html',
+            $block->getLearnMoreUrl([
+                'module' => 'Reva_SlidingCart',
+                'url' => 'https://commercemarketplace.adobe.com/reva-slidingcart.html',
+            ])
+        );
+        $this->assertStringStartsWith(
+            Information::WEBSITE_URL . '?utm_source=magento-admin',
+            $block->getLearnMoreUrl(['module' => 'Reva_X', 'path' => '#services'])
+        );
     }
 
     public function testServicesAreListed(): void
