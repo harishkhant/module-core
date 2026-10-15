@@ -2,6 +2,10 @@
 
 ## 1.0.1
 - New RevaMagento branding: updated logo in the admin sidebar menu, the configuration tab and the information panel.
+- Online extension list: the Information & Marketplace panel reads the list of Reva extensions from the file the
+  RevaMagento website uses (cached for a day, 3 second timeout, validated, no store data sent), with the bundled
+  list as fallback. "Learn more" can link to the extension's Marketplace page.
+  New setting *Load Extension List Online* (default Yes) turns it off.
 - Information & Marketplace panel: new "Premium extensions" section listing paid Reva extensions (Stock & Price
   Alert) with highlights and installed status, without prices; the existing list is now "Free extensions".
 - Redesigned the Information & Marketplace panel: company introduction, Reva extensions with installed status,

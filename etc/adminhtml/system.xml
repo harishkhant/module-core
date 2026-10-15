@@ -25,6 +25,16 @@
                     <comment>Show the MageReva menu in the admin sidebar.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="remote_feed" translate="label comment" type="select" sortOrder="35" showInDefault="1"
+                    showInWebsite="0" showInStore="0">
+                    <label>Load Extension List Online</label>
+                    <comment>
+                        <![CDATA[Keeps the extension list above up to date from the RevaMagento website (checked
+                        once a day; no store data is sent). When off, or when the website cannot be reached, the
+                        list shipped with the module is shown.]]>
+                    </comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
         </section>
     </system>

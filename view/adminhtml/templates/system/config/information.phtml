@@ -66,21 +66,20 @@ $linkAttributes = 'target="_blank" rel="noopener"';
                                     </span>
                                 </div>
                                 <p><?= $escaper->escapeHtml($extension['description']) ?></p>
-                                <ul class="reva-info__highlights">
-                                    <?php foreach ($extension['highlights'] as $highlight): ?>
-                                        <li><?= $escaper->escapeHtml($highlight) ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
+                                <?php if ($extension['highlights']): ?>
+                                    <ul class="reva-info__highlights">
+                                        <?php foreach ($extension['highlights'] as $highlight): ?>
+                                            <li><?= $escaper->escapeHtml($highlight) ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                <?php endif; ?>
                                 <?php if ($extension['installed']): ?>
                                     <span class="reva-info__badge reva-info__badge--installed">
                                         <?= $escaper->escapeHtml(__('Installed')) ?>
                                     </span>
                                 <?php else: ?>
                                     <?php
-                                    $learnMoreUrl = $block->getWebsiteUrl(
-                                        '#services',
-                                        strtolower($extension['module'])
-                                    );
+                                    $learnMoreUrl = $block->getLearnMoreUrl($extension);
                                     $learnMoreTitle = __('Learn more about %1 for Magento 2', $extension['name']);
                                     ?>
                                     <a class="action-secondary reva-info__button reva-info__premium-link"
@@ -112,10 +111,7 @@ $linkAttributes = 'target="_blank" rel="noopener"';
                                     </span>
                                 <?php else: ?>
                                     <?php
-                                    $learnMoreUrl = $block->getWebsiteUrl(
-                                        '#services',
-                                        strtolower($extension['module'])
-                                    );
+                                    $learnMoreUrl = $block->getLearnMoreUrl($extension);
                                     $learnMoreTitle = __('Learn more about %1 for Magento 2', $extension['name']);
                                     ?>
                                     <a class="reva-info__badge" <?= /* @noEscape */ $linkAttributes ?>
