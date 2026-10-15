@@ -105,20 +105,6 @@ Go to **Stores > Configuration > Reva > Information & Marketplace**.
 | Setting | Default | Description |
 |---|---|---|
 | Enable Reva Menu | Yes | Shows the MageReva menu in the admin sidebar. |
-| Load Extension List Online | Yes | Keeps the extension list on the Information page up to date (see below). |
-
-### Online extension list
-
-When *Load Extension List Online* is on, the Information page reads the list of Reva extensions from
-`https://revacloudflare.harishkhant267.workers.dev/reva-extensions.json`, the same file the RevaMagento website
-uses. New extensions therefore appear without updating Reva Core.
-
-- The file is downloaded at most once a day (after a failure, at most once an hour), only when an admin opens the
-  Information page, and the request gives up after 3 seconds.
-- It is a plain download: **no store data** (domain, version, admin or customer information) is sent.
-- Every value is validated and escaped. Links can only point to the RevaMagento website or the Adobe Commerce
-  Marketplace.
-- When the setting is off, or the file cannot be loaded, the list shipped with the module is shown.
 
 To let a restricted admin role use Reva, open **System > Permissions > User Roles**, edit the role, and under
 *Role Resources* tick **MageReva** and, under *Stores > Settings > Configuration*,
