@@ -106,7 +106,7 @@ class Information extends Template implements RendererInterface
     /**
      * Get the Reva extensions with their install status
      *
-     * @return array[]
+     * @return array<int, array<string, mixed>>
      */
     public function getExtensions(): array
     {
@@ -131,6 +131,38 @@ class Information extends Template implements RendererInterface
                 'description' => __(
                     'Adds custom links and a vertical category menu to the store navigation, no theme changes needed.'
                 ),
+            ],
+        ];
+
+        foreach ($extensions as &$extension) {
+            $extension['installed'] = $this->moduleManager->isEnabled($extension['module']);
+        }
+
+        return $extensions;
+    }
+
+    /**
+     * Get the premium (paid) Reva extensions with their install status
+     *
+     * Prices are deliberately not shown here; "Learn more" links to the website. Add new paid extensions to
+     * this list; the section is hidden when the list is empty.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getPremiumExtensions(): array
+    {
+        $extensions = [
+            [
+                'module' => 'Reva_StockPriceAlert',
+                'name' => __('Stock & Price Alert'),
+                'description' => __(
+                    'Lets shoppers ask to be emailed when a product is back in stock or its price drops.'
+                ),
+                'highlights' => [
+                    __('Back-in-stock and price-drop alerts for guests and customers'),
+                    __('Product page popup, mobile friendly and full page cache safe'),
+                    __('Admin grids, email log and analytics'),
+                ],
             ],
         ];
 

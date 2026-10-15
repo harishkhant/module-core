@@ -45,9 +45,60 @@ $linkAttributes = 'target="_blank" rel="noopener"';
                 </div>
             </header>
 
+            <?php $premiumExtensions = $block->getPremiumExtensions(); ?>
+            <?php if ($premiumExtensions): ?>
+                <div class="reva-info__premium">
+                    <div class="reva-info__premium-head">
+                        <h3 class="reva-info__heading"><?= $escaper->escapeHtml(__('Premium extensions')) ?></h3>
+                        <p class="reva-info__text">
+                            <?= $escaper->escapeHtml(__(
+                                'Paid RevaMagento extensions with advanced features for growing stores.'
+                            )) ?>
+                        </p>
+                    </div>
+                    <ul class="reva-info__premium-list">
+                        <?php foreach ($premiumExtensions as $extension): ?>
+                            <li class="reva-info__premium-item">
+                                <div class="reva-info__premium-title">
+                                    <strong><?= $escaper->escapeHtml($extension['name']) ?></strong>
+                                    <span class="reva-info__badge reva-info__badge--premium">
+                                        <?= $escaper->escapeHtml(__('Premium')) ?>
+                                    </span>
+                                </div>
+                                <p><?= $escaper->escapeHtml($extension['description']) ?></p>
+                                <ul class="reva-info__highlights">
+                                    <?php foreach ($extension['highlights'] as $highlight): ?>
+                                        <li><?= $escaper->escapeHtml($highlight) ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                                <?php if ($extension['installed']): ?>
+                                    <span class="reva-info__badge reva-info__badge--installed">
+                                        <?= $escaper->escapeHtml(__('Installed')) ?>
+                                    </span>
+                                <?php else: ?>
+                                    <?php
+                                    $learnMoreUrl = $block->getWebsiteUrl(
+                                        '#services',
+                                        strtolower($extension['module'])
+                                    );
+                                    $learnMoreTitle = __('Learn more about %1 for Magento 2', $extension['name']);
+                                    ?>
+                                    <a class="action-secondary reva-info__button reva-info__premium-link"
+                                       <?= /* @noEscape */ $linkAttributes ?>
+                                       href="<?= $escaper->escapeUrl($learnMoreUrl) ?>"
+                                       title="<?= $escaper->escapeHtmlAttr($learnMoreTitle) ?>">
+                                        <?= $escaper->escapeHtml(__('Learn more')) ?>
+                                    </a>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
             <div class="reva-info__grid">
                 <div class="reva-info__card">
-                    <h3 class="reva-info__heading"><?= $escaper->escapeHtml(__('Reva extensions for Magento 2')) ?></h3>
+                    <h3 class="reva-info__heading"><?= $escaper->escapeHtml(__('Free extensions')) ?></h3>
                     <ul class="reva-info__extensions">
                         <?php foreach ($block->getExtensions() as $extension): ?>
                             <li class="reva-info__extension">

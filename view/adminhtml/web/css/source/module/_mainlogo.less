@@ -172,6 +172,83 @@
         }
     }
 
+    &__premium {
+        border-bottom: 1px solid @reva-line;
+        padding: 2rem 0;
+    }
+
+    &__premium-head {
+        margin-bottom: 1.4rem;
+
+        .reva-info__heading {
+            margin-bottom: .4rem;
+        }
+    }
+
+    &__premium-list {
+        display: grid;
+        gap: 1.6rem;
+        grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    &__premium-item {
+        align-items: flex-start;
+        background: @reva-white;
+        border: 1px solid @reva-line;
+        border-top: 3px solid @reva-gold;
+        display: flex;
+        flex-direction: column;
+        gap: .8rem;
+        margin: 0;
+        padding: 1.8rem;
+
+        > p {
+            color: @reva-muted;
+            font-size: 1.3rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+    }
+
+    &__premium-title {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: .8rem;
+
+        strong {
+            font-size: 1.6rem;
+        }
+    }
+
+    &__highlights {
+        list-style: none;
+        margin: 0 0 .4rem;
+        padding: 0;
+
+        li {
+            font-size: 1.3rem;
+            margin: 0 0 .4rem;
+            padding-left: 1.8rem;
+            position: relative;
+
+            &:before {
+                color: @reva-success-text;
+                content: '\2713';
+                font-weight: 700;
+                left: 0;
+                position: absolute;
+            }
+        }
+    }
+
+    &__premium-item > :last-child {
+        margin-top: auto;
+    }
+
     &__grid {
         display: grid;
         gap: 2rem;
@@ -230,6 +307,14 @@
         font-weight: 700;
         padding: .2rem 1rem;
         text-decoration: none !important;
+
+        &--premium {
+            background: @reva-navy;
+            border-color: @reva-navy;
+            color: @reva-white;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
 
         &--installed {
             background: @reva-success-bg;

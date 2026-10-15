@@ -70,6 +70,22 @@ class InformationTest extends TestCase
         }
     }
 
+    public function testPremiumExtensionsShowInstallStatusWithoutPrices(): void
+    {
+        $installed = $this->createBlock(['Reva_StockPriceAlert'])->getPremiumExtensions();
+        $notInstalled = $this->createBlock()->getPremiumExtensions();
+
+        $this->assertNotEmpty($installed);
+        $this->assertSame(['Reva_StockPriceAlert' => true], array_column($installed, 'installed', 'module'));
+        $this->assertSame(['Reva_StockPriceAlert' => false], array_column($notInstalled, 'installed', 'module'));
+        foreach ($installed as $extension) {
+            $this->assertNotSame('', (string)$extension['name']);
+            $this->assertNotSame('', (string)$extension['description']);
+            $this->assertNotEmpty($extension['highlights']);
+            $this->assertArrayNotHasKey('price', $extension);
+        }
+    }
+
     public function testServicesAreListed(): void
     {
         $this->assertCount(8, $this->createBlock()->getServices());
